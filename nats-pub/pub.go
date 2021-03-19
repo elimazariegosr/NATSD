@@ -21,6 +21,8 @@ type Data struct {
 func main() {
 
 	nc, err := nats.Connect("nats://nats:4222")
+	//nc, err := nats.Connect(nats.DefaultURL)
+	
 	if err != nil {
 		panic(err)
 	}
