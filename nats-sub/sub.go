@@ -3,10 +3,10 @@
 package main
 
 import (
-	"bytes"
+	/*"bytes"
 	//"io/ioutil"
 	"net/http"
-	"encoding/json"
+	"encoding/json"*/
 	
 	nats "github.com/nats-io/nats.go"
 	log "github.com/sirupsen/logrus"
@@ -49,7 +49,7 @@ func main() {
 	for {
 		// Wait for incoming messages
 		req := <-personChanRecv
-		jsonData := map[string]string{"Name":req.Name, "Age":"Age"}
+		/*jsonData := map[string]string{"Name":req.Name, "Age":"Age"}
 		jsonValue, _ := json.Marshal(jsonData)
 		
 		resp, err := http.Post("http://api.mocki.io/v1/ea7343ac", "application/json", bytes.NewBuffer(jsonValue))
@@ -58,8 +58,8 @@ func main() {
 		json.NewDecoder(resp.Body).Decode(&p)
 		if err != nil {
 			println("error")
-		}
+		}*/
 				
-		println(p.Puto)
+		println("Llego 2: " + req.Name)
 	}
 }
