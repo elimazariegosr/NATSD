@@ -60,6 +60,6 @@ func main() {
 			println("error")
 		}*/
 				
-		println("Llego 2: " + req.Name)
+		println("Llego 1: " + req.Name)
 	}
 }
