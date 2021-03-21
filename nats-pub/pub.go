@@ -43,7 +43,7 @@ func main() {
 		var d Data
 		err := json.NewDecoder(r.Body).Decode(&d)
 		if err != nil {
-			println("error" )
+			
 		}else{
 			req := d
 			personChanSend <- &req
