@@ -3,11 +3,11 @@
 package main
 
 import (
-	/*"bytes"
+	"bytes"
 	//"io/ioutil"
 	"net/http"
-	"encoding/json"*/
-	
+	"encoding/json"
+	"strconv"
 	nats "github.com/nats-io/nats.go"
 	log "github.com/sirupsen/logrus"
 )
@@ -16,10 +16,10 @@ func main() {
 
 	nc, err := nats.Connect("nats://nats:4222")
 	//nc, err := nats.Connect(nats.DefaultURL)
+	url := "http://34.121.110.42/"
 	if err != nil {
 		panic(err)
 	}
-
 
 	ec, err := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
 	if err != nil {
@@ -27,7 +27,7 @@ func main() {
 	}
 	defer ec.Close()
 
-	log.Info("Connected to NATS and ready to receive messages")
+	log.Info("NATS sub conectado")
 
 	// Make sure this type and its properties are exported
 	// so the serializer doesn't bork
@@ -39,9 +39,6 @@ func main() {
 		Infectedtype string
 		State string
 	}
-	type Putos struct {
-		Puto string
-	}
 	
 	personChanRecv := make(chan *Data)
 	ec.BindRecvChan("request_subject", personChanRecv)
@@ -49,17 +46,22 @@ func main() {
 	for {
 		// Wait for incoming messages
 		req := <-personChanRecv
-		/*jsonData := map[string]string{"Name":req.Name, "Age":"Age"}
+		edad := strconv.Itoa(req.Age)
+		jsonData := map[string]string{"name": req.Name,"location": req.Location,"age": edad,"infectedtype": req.Infectedtype,"state": req.State, "path" : "NATS"}
 		jsonValue, _ := json.Marshal(jsonData)
+		 
+		res, err:= http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
+		if(err != nil){
 		
-		resp, err := http.Post("http://api.mocki.io/v1/ea7343ac", "application/json", bytes.NewBuffer(jsonValue))
-		
-		var p Putos
-		json.NewDecoder(resp.Body).Decode(&p)
-		if err != nil {
-			println("error")
-		}*/
+		}else{
+			var pt Data
+			err := json.NewDecoder(res.Body).Decode(&pt)
+			if err != nil {
 				
-		println("Llego 1: " + req.Name)
+			}else{
+				println("Se envio a la API: " + pt.Name)
+			}
+		}
+	
 	}
 }

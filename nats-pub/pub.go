@@ -33,7 +33,7 @@ func main() {
 	}
 	defer ec.Close()
 
-	log.Info("Connected to NATS and ready to send messages")
+	log.Info("NATS pub conectado")
 
 	personChanSend := make(chan *Data)
 	ec.BindSendChan("request_subject", personChanSend)
@@ -47,6 +47,7 @@ func main() {
 		}else{
 			req := d
 			personChanSend <- &req
+
 		}
 	})
     http.ListenAndServe(":8000", nil)
